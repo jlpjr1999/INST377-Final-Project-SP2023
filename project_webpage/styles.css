@@ -55,6 +55,14 @@ body {
 
 .selected_nav_item {
     border-bottom: 1px solid black;
+    margin-bottom: 20px;
+}
+
+.main {
+    display: flex;
+    justify-content: space-evenly;
+    flex: 1;
+    width: 100vw;
 }
 
 .main {
@@ -87,15 +95,14 @@ body {
     flex-direction: column;
     border: 1px dotted black;
     justify-content: space-around;
-    width: 1000px;
-    height: 300px;
+    flex: 2;
+    width: 100%;
 }
 
 .vis_header {
     display: flex;
     justify-content: center;
     border: 1px dotted black;
-    flex: 1;
     margin: 5px;
 }
 
@@ -103,14 +110,15 @@ body {
     display: flex;
     border: 1px dotted black;
     flex: 4;
+    justify-content: center;
 }
 
 .results_container {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 1000px;
-    height: 500px;
+    flex: 1;
+    width: 100%;
 }
 
 .results_header {
@@ -130,8 +138,8 @@ body {
     flex-direction: column;
     justify-content: space-evenly;
     border: 1px dotted black;
-    width: 600px;
-    height: 300px;
+    width: 100%;
+    padding: 1px;
 }
 
 .footer {
@@ -142,9 +150,8 @@ body {
 
 .box {
     border: 1px dotted black;
-    display: flex;
-    width: 600px;
-    height: 300px;
+    display: block;
+    width: fit-content;
 }
   
 form input {
@@ -168,3 +175,23 @@ form input {
     margin-bottom: 0.5rem;
   }
   
+.about_box {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 10px;
+    border-radius: 15px;
+    justify-content: space-evenly;
+}
+
+.inner_box {
+    border: 1px solid black;
+    width: 70%;
+    margin: 10px;
+    border-radius: 15px;
+}
+
+.desc {
+    margin-left: 5%;
+}
