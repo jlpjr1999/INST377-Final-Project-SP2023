@@ -44,6 +44,7 @@ async function mainEvent(){
     console.log("in main event");
     const visArea = document.querySelector("#vis_cont");
     const loadButton = document.querySelector("#data_load");
+    const gen_chart = document.querySelector("#generate_chart")
     const chartArea = document.querySelector("#myChart")
     const key = "9e7780c9f276446c8102a0b384672031";
     let endpoint = "games";
@@ -52,10 +53,11 @@ async function mainEvent(){
     const storedData = localStorage.getItem("gameData");
     let parsedData = JSON.parse(storedData);
     console.log(parsedData);
-    
-    const shapedData = shapeDataForBarChart(parsedData.results);
-    const myChart = initChart(chartArea, shapedData);
-    
+
+    gen_chart.addEventListener("click", (event) => {
+      const shapedData = shapeDataForBarChart(parsedData.results);
+      const myChart = initChart(chartArea, shapedData);
+    });
 
     loadButton.addEventListener("click", async (event) => {
         console.log("loading data");
