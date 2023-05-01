@@ -1,4 +1,4 @@
-function initChart(chart, object) {
+function initBarChart(chart, object, labelName) {
     const labels = Object.keys(object);
 
     const data = Object.values(object);
@@ -10,7 +10,7 @@ function initChart(chart, object) {
         data: {
           labels: labels,
           datasets: [{
-            label: '# of Votes',
+            label: labelName,
             data: data,
             borderWidth: 1
           }]
@@ -23,6 +23,13 @@ function initChart(chart, object) {
           }
         }
       });
+};
+
+
+function deleteChart() {
+  if (Chart.getChart("myChart")){
+    Chart.getChart("myChart").destroy();
+  }
 };
 
 function getLabels(chartData) {
@@ -40,36 +47,125 @@ function shapeDataForBarChart(chartData) {
     return ranking;
 }
 
+function shapeDevData(chartData) {
+  let numberOfGames = chartData.reduce((collection, item) => {
+    collection[item.name] = [item.games.length]
+    return collection;
+  }, {});
+  return numberOfGames;
+}
+
 async function mainEvent(){
     console.log("in main event");
     const visArea = document.querySelector("#vis_cont");
     const loadButton = document.querySelector("#data_load");
-    const gen_chart = document.querySelector("#generate_chart")
-    const chartArea = document.querySelector("#myChart")
+    const gen_chart_ranks = document.querySelector("#generate_chart_ranks");
+    const gen_chart_dev = document.querySelector("#generate_chart_dev");
+    const chartArea = document.querySelector("#myChart");
+    const filterGamesButton = document.querySelector("#filter_data_games");
+    const filterGamesText = document.querySelector("#game");
+    const filterDevsButton = document.querySelector("#filter_data_devs");
+    const filterDevText = document.querySelector("#dev");
     const key = "9e7780c9f276446c8102a0b384672031";
-    let endpoint = "games";
-    let url = `https://api.rawg.io/api/${endpoint}?key=${key}`
+    const pageSize = 50;
+    let gameUrl = `https://api.rawg.io/api/games?key=${key}&page_size=${pageSize}`;
+    let devUrl = `https://api.rawg.io/api/developers?key=${key}&page_size=${pageSize}`;
+    let myChart = "";
+    let isFiltered = false;
 
-    const storedData = localStorage.getItem("gameData");
-    let parsedData = JSON.parse(storedData);
-    console.log(parsedData);
+    const gameData = localStorage.getItem("gameData");
+    let parsedGameData = JSON.parse(gameData);
 
-    gen_chart.addEventListener("click", (event) => {
-      const shapedData = shapeDataForBarChart(parsedData.results);
-      const myChart = initChart(chartArea, shapedData);
+    let filterDevData = []
+    let filterGameData = []
+
+    const devData = localStorage.getItem("devData");
+    let parsedDevData = JSON.parse(devData)
+
+    let path = window.location.pathname;
+    let page = path.split("/")[2];
+    console.log(page) 
+
+    if (page == "ratings.html") {
+      gen_chart_ranks.addEventListener("click", (event) => {
+        deleteChart();
+        if (!isFiltered) {
+          const shapedData = shapeDataForBarChart(parsedGameData.results);
+          myChart = initBarChart(chartArea, shapedData, "# of Votes");
+        } else {
+          const shapedData = shapeDataForBarChart(filterGameData);
+          myChart = initBarChart(chartArea, shapedData, "Number of Votes for Filter")
+        }
+
+      filterGamesButton.addEventListener("click", (event) => {
+        console.log("filtering data");
+        let gameName = filterGamesText.value;
+        console.log(gameName)
+        if (gameName === "") {
+          isFiltered = false;
+        }else {
+          isFiltered = true;
+          console.log(parsedGameData)
+          filterGameData = parsedGameData.results.filter((item) => {
+            if (item.name == gameName){
+              console.log(item)
+              return item;
+            }
+          })
+        }
+  
+        console.log(filterGameData)
+      })
     });
+    }else if(page == "index.html") {
+      gen_chart_dev.addEventListener("click", (event) => {
+        deleteChart();
+        if (!isFiltered) {
+          const shapedData = shapeDevData(parsedDevData.results);
+          myChart = initBarChart(chartArea, shapedData, "# of Games in Database");
+          console.log(parsedDevData.result)
+        } else {
+          const shapedData = shapeDevData(filterDevData);
+          myChart = initBarChart(chartArea, shapedData, "# of Games For Filter")
+        }
+      });
+
+      filterDevsButton.addEventListener("click", (event) => {
+        console.log("filtering data");
+        let devName = filterDevText.value;
+        console.log(devName)
+        if (devName === "") {
+          isFiltered = false;
+        }else {
+          isFiltered = true;
+          filterDevData = parsedDevData.results.filter((item) => {
+            if (item.name == devName){
+              console.log(item)
+              return item;
+            }
+          })
+        }
+  
+        console.log(filterDevData)
+      })
+    }
 
     loadButton.addEventListener("click", async (event) => {
         console.log("loading data");
 
-        const result = await fetch(url);
-        const data = await result.json();
+        let result = await fetch(gameUrl);
+        let data = await result.json();
 
         localStorage.setItem("gameData", JSON.stringify(data));
-        parsedData = data;
+        parsedGameData = data;
         console.log(data);
+
+        result = await fetch(devUrl);
+        data = await result.json();
+        localStorage.setItem("devData", JSON.stringify(data));
+        parsedDevData = data;
     });
-    
+
 };
 
 

@@ -17,15 +17,16 @@
             </div>
             <div class="main">
                 <div class="left_content">
-                    <div class="box">Description goes here</div>
+                    <div class="box">Get number of Games produced by a developer found within the RAWG database. First load the data, then generate the chart to see the whole dataset. If you want to filter from what's shown, enter the name into the developer name field, press filter data then press generate chart again.</div>
                     <div class="form_area">
                         <div>Parameter Adjustment Area</div>
                         <button type="button" id="data_load">Load Games Data</button>
-                        <button type="button" id="generate_chart">Generate Chart</button>
+                        <button type="button" id="generate_chart_dev">Generate Chart</button>
+                        <button type="button" id="filter_data_devs">Filter Data</button>
                         <form action="">
                             <div>
                                 <label for="name">Developer Name</label>
-                                <input type="text" name="name"/>
+                                <input type="text" name="name" id="dev"/>
                             </div>
                             <div>
                                 <label for="year">Year</label>
