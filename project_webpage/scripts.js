@@ -83,7 +83,9 @@ async function mainEvent(){
     let parsedDevData = JSON.parse(devData)
 
     let path = window.location.pathname;
-    let page = path.split("/")[2];
+    console.log(path)
+    let token_path = path.split("/")
+    let page = token_path[token_path.length-1];
     console.log(page) 
 
     if (page == "ratings.html") {
