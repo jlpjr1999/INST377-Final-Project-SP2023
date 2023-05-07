@@ -17,7 +17,7 @@
             </div>
             <div class="main">
                 <div class="left_content">
-                    <div class="box">Get number of ratings for a game found within the RAWG database. First load the data, then generate the chart to see the whole dataset. If you want to filter from what's shown, enter the name into the developer name field, press filter data then press generate chart again.</div>
+                    <div class="box">Get number of ratings for a game found within the RAWG database. First load the data, then generate the chart to see the whole dataset. If you want to filter from what's shown, enter the name into the developer name field, press filter data then press generate chart again.<br><br>To get a new set of data, press the "Refresh" button and generate a new chart.</div>
                     <div class="form_area">
                         <div>Parameter Adjustment Area</div>
                         <button type="button" id="data_load">Load Games Data</button>
@@ -43,6 +43,7 @@
                         </div>
                     </div>
                     <div class="results_container">
+                        <button type="button" id="refresh">Refresh for new data</button>
                         <div class="results_header">Results</div>
                         <div class="results_content", id="res_cont">results content</div>
                     </div>
