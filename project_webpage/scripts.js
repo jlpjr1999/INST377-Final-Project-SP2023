@@ -55,6 +55,7 @@ function shapeDevData(chartData) {
   return numberOfGames;
 }
 
+
 async function mainEvent(){
     console.log("in main event");
     const visArea = document.querySelector("#vis_cont");
@@ -66,12 +67,15 @@ async function mainEvent(){
     const filterGamesText = document.querySelector("#game");
     const filterDevsButton = document.querySelector("#filter_data_devs");
     const filterDevText = document.querySelector("#dev");
+    const refreshButton = document.querySelector("#refresh");
     const key = "9e7780c9f276446c8102a0b384672031";
     const pageSize = 50;
+    let apiPage = 2;
     let gameUrl = `https://api.rawg.io/api/games?key=${key}&page_size=${pageSize}`;
     let devUrl = `https://api.rawg.io/api/developers?key=${key}&page_size=${pageSize}`;
     let myChart = "";
     let isFiltered = false;
+
 
     const gameData = localStorage.getItem("gameData");
     let parsedGameData = JSON.parse(gameData);
@@ -89,6 +93,7 @@ async function mainEvent(){
     console.log(page) 
 
     if (page == "ratings.html") {
+      apiPage = 1;
       gen_chart_ranks.addEventListener("click", (event) => {
         deleteChart();
         if (!isFiltered) {
@@ -120,12 +125,13 @@ async function mainEvent(){
       })
     });
     }else if(page == "index.html") {
+      apiPage = 1;
       gen_chart_dev.addEventListener("click", (event) => {
         deleteChart();
         if (!isFiltered) {
           const shapedData = shapeDevData(parsedDevData.results);
           myChart = initBarChart(chartArea, shapedData, "# of Games in Database");
-          console.log(parsedDevData.result)
+          console.log(parsedDevData.results)
         } else {
           const shapedData = shapeDevData(filterDevData);
           myChart = initBarChart(chartArea, shapedData, "# of Games For Filter")
@@ -154,6 +160,7 @@ async function mainEvent(){
 
     loadButton.addEventListener("click", async (event) => {
         console.log("loading data");
+        apiPage = 2;
 
         let result = await fetch(gameUrl);
         let data = await result.json();
@@ -168,6 +175,26 @@ async function mainEvent(){
         parsedDevData = data;
     });
 
+    refreshButton.addEventListener("click", async (event) => {
+      console.log("refreshing with new data");
+
+      let nextGamePage = `${gameUrl}&page=${apiPage}`;
+      let nextDevPage =  `${devUrl}&page=${apiPage}`
+
+      let result = await fetch(nextGamePage);
+      let data = await result.json();
+
+      localStorage.setItem("gameData", JSON.stringify(data));
+      parsedGameData = data;
+      console.log(data);
+
+      result = await fetch(nextDevPage);
+      data = await result.json();
+      localStorage.setItem("devData", JSON.stringify(data));
+      parsedDevData = data;
+
+      apiPage = apiPage + 1;
+    })
 };
 
 
