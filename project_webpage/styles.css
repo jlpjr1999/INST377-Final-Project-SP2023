@@ -65,13 +65,6 @@ body {
     width: 100vw;
 }
 
-.main {
-    display: flex;
-    justify-content: space-evenly;
-    flex: 1;
-    width: 100vw;
-}
-
 .left_content {
     display: flex;
     flex-direction: column;
@@ -179,17 +172,26 @@ form input {
     border: 1px solid black;
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 90%;
     margin: 10px;
     border-radius: 15px;
     justify-content: space-evenly;
+    align-items: center;
+}
+
+.about_box h1 {
+    align-self: start; 
+    padding-top: 50px;
+    padding-left: 50px;
 }
 
 .inner_box {
     border: 1px solid black;
-    width: 70%;
+    width: 90%;
     margin: 10px;
     border-radius: 15px;
+    flex: 2;
+    padding: 20px;
 }
 
 .desc {
