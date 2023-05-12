@@ -6,8 +6,7 @@ James Poindexter - UMD '23 - Final Project for INST377: Dynamic Web Applications
 ## Target Browsers: Chrome, Firefox, iOS and Android latest browsers
 
 
-Link to Github Pages Site:
-https://jlpjr1999.github.io/INST377-Final-Project-SP2023/project_webpage/index.html
+[Link to Github Pages Site:](https://jlpjr1999.github.io/INST377-Final-Project-SP2023/index.html)
 
 ## API used: 
 * [RAWG Video Game Database:](https://rawg.io/apidocs)
